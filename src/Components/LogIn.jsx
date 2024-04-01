@@ -1,7 +1,13 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../AuthProvider/AuthProvider";
 
 
 const LogIn = () => {
+
+    // Auth prove theke data 
+
+    const {signInUser} = useContext(AuthContext);
 
     // 1st evenhandler
     const handleLogin = e => {
@@ -10,6 +16,11 @@ const LogIn = () => {
         const password = e.target.password.value;
 
         console.log(email, password)
+        signInUser(email,password)
+        .then(result =>{
+            console.log(result.user)
+        })
+        .catch(error => console.log(error)) 
     }
 
     return (

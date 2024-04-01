@@ -1,15 +1,28 @@
-
-import {  createContext } from "react";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import {  createContext, useState } from "react";
 import PropTypes from 'prop-types';
+import auth from "../firebase/firebase.config";
 
 // 1st authcontext make
-
 export const AuthContext = createContext(null);
 
 const AuthProvider = ({children}) => {
+    // thrid
+    const[user, setUser] = useState(null);
+
+
+    // fourth process
+    const createUser = (email, password) =>{
+        return createUserWithEmailAndPassword(auth, email, password)
+    }
+
+    // same log in 
+    const signInUser = (email, password) =>{
+        return signInWithEmailAndPassword(auth, email, password)
+    }
 
     // second process
-    const authInfo = {name: 'shanto'}
+    const authInfo = { user ,createUser, signInUser }
 
     return (
         <AuthContext.Provider value={authInfo}>
