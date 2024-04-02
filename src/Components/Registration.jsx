@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 
 
@@ -8,7 +8,8 @@ const Registration = () => {
      // AuthProvider.jsx  theke create user k call krr jnno
      const {createUser} = useContext(AuthContext);
 
-    
+    // after registration then going to login
+    const navigation = useNavigate();
 
     // 1st evenhandler
     const handleRegister = e => {
@@ -23,6 +24,10 @@ const Registration = () => {
         createUser(email,password)
         .then( result =>{
             console.log(result.user)
+            // for reset
+            e.target.reset();
+
+            navigation('/login')
         })
         .catch(error => {
             console.log(error);

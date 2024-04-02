@@ -18,6 +18,13 @@ const Navbar = () => {
         <li> <NavLink to="/">Home</NavLink></li>
         <li> <NavLink to="/logIn">LogIn</NavLink></li>
         <li> <NavLink to="/registration">Registration</NavLink></li>
+        <li> <NavLink to="/orders">Orders</NavLink></li>
+
+{/* ei part ta hcce jokon ami login korbo tkon amke dashboard e dekhabe */}
+       { user && <>
+       <li> <NavLink to="/dashboard">Dashboard</NavLink></li>
+       <li> <NavLink to="/profile">Profile</NavLink></li>
+       </> } 
     </>
 
     return (

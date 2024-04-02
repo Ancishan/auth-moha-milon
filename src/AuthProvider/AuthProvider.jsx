@@ -1,28 +1,40 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import {  createContext, useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import auth from "../firebase/firebase.config";
 
 // 1st authcontext make
 export const AuthContext = createContext(null);
+const googleProvider = new GoogleAuthProvider();
 
 const AuthProvider = ({children}) => {
     // thrid
     const[user, setUser] = useState(null);
+    const[loading,  setLoading] = useState(true)
 
 
     // fourth process
     const createUser = (email, password) =>{
+       setLoading(true);
         return createUserWithEmailAndPassword(auth, email, password)
     }
 
     // same log in  1st step
     const signInUser = (email, password) =>{
+        setLoading(true);
         return signInWithEmailAndPassword(auth, email, password)
     }
 
+    //signIN with Google
+    const signInWithGoogle = () => {
+        setLoading(true);
+        return signInWithPopup(auth, googleProvider)
+    } 
+
+
     // sign out
      const LogOut = () =>{
+        setLoading(true);
         return signOut(auth);
      }
 
@@ -32,6 +44,7 @@ const AuthProvider = ({children}) => {
       const unSubscribe =  onAuthStateChanged(auth, currentUser =>{
             setUser(currentUser);
             console.log('observing current user inside ', currentUser)
+            setLoading(false);
         });
         return () =>{
             unSubscribe()
@@ -41,8 +54,10 @@ const AuthProvider = ({children}) => {
 
     // second process
     const authInfo = { user ,
+        loading,
         createUser,
          signInUser,
+         signInWithGoogle,
          LogOut }
 
     return (

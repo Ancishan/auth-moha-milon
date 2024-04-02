@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 
 
@@ -7,7 +7,11 @@ const LogIn = () => {
 
     // Auth prove theke data sign in user er data ana
 
-    const {signInUser} = useContext(AuthContext);
+    const { signInUser, signInWithGoogle } = useContext(AuthContext);
+
+    // this part when i log in then going me another file
+
+    const navigate = useNavigate();
 
     // 1st evenhandler
     const handleLogin = e => {
@@ -17,12 +21,29 @@ const LogIn = () => {
 
         console.log(email, password)
 
-//Then email and pass 
-        signInUser(email,password)
-        .then(result =>{
-            console.log(result.user)
-        })
-        .catch(error => console.log(error)) 
+
+
+        //Then email and pass 
+        signInUser(email, password)
+            .then(result => {
+                console.log(result.user)
+                // for reset
+                e.target.reset();
+
+                // going to home when i login
+                navigate('/')
+            })
+            .catch(error => console.log(error))
+    }
+    // google er jnno
+    const handleGoogleSignIn = () => {
+        signInWithGoogle()
+            .then(result => {
+                console.log(result.user)
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
     return (
@@ -55,7 +76,9 @@ const LogIn = () => {
                             </div>
                         </form>
                         <p className="ml-6 pb-4">Are You in new Auth Moha Milon ? please <Link to="/registration"><span className="text-blue-600">Registration</span></Link> </p>
+                        <p><button onClick={handleGoogleSignIn} className="btn btn-active btn-secondary">Google</button></p>
                     </div>
+
                 </div>
             </div>
         </div>
