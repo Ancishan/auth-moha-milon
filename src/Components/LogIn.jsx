@@ -5,7 +5,7 @@ import { AuthContext } from "../AuthProvider/AuthProvider";
 
 const LogIn = () => {
 
-    // Auth prove theke data 
+    // Auth prove theke data sign in user er data ana
 
     const {signInUser} = useContext(AuthContext);
 
@@ -16,6 +16,8 @@ const LogIn = () => {
         const password = e.target.password.value;
 
         console.log(email, password)
+
+//Then email and pass 
         signInUser(email,password)
         .then(result =>{
             console.log(result.user)
